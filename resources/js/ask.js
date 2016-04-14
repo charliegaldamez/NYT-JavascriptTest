@@ -1,12 +1,16 @@
 function appendNoticia(noticia){
+    
     jQuery(".noticias").append(
         '<div data-id="' + noticia.index + '" class="noticias_individuales">' +
-            noticia.image +
+            '<div class="noticias_imagen">' +
+                noticia.image +
+            '</div>' +
             '<div class="noticias_texto">' +
                 '<p>' + noticia.title + '</p>' +
-                '<a href="' + noticia.url + '" >' + noticia.about + '</a><br/>' +
+                '<a href="' + noticia.url + '" >' + noticia.about + '</a>' +
             '</div>' +
         '</div>');
+    
 }
 
 jQuery(document).ready(function ($) {
@@ -64,12 +68,20 @@ jQuery(document).ready(function ($) {
         }
                 
         if (result.length === 0) {
-            jQuery(".noticias").append("<p>No hay resultados</p>");
+            jQuery(".noticias").append(
+                '<p>No hay resultados</p>' + 
+                '<input type="button" class="refresh" value="Volver a buscar"/>'
+            );
         } else {
             for(var i = 0; i < result.length; i++) {
                 appendNoticia(busqueda[result[i]]);
             }   
         }
         
+    });
+
+    jQuery(".noticias").on('click', '.refresh', function () {
+        jQuery(".buscador input[type=text]").val("");
+        jQuery(".buscar").click();
     });
 });
